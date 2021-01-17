@@ -47,7 +47,7 @@ class enrol_applyhospice_apply_form extends moodleform {
         $mform = $this->_form;
         $instance = $this->_customdata;
         $this->instance = $instance;
-        $plugin = enrol_get_plugin('apply');
+        $plugin = enrol_get_plugin('applyhospice');
 
         $heading = $plugin->get_instance_name($instance);
         $mform->addElement('header', 'selfheader', $heading);

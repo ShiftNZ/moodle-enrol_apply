@@ -66,7 +66,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
     public function allow_unenrol_user(stdClass $instance, stdClass $ue) {
         global $DB;
         /*
-        if ($DB->record_exists('enrol_applyhospice_applicationinfo', ['userenrolmentid' => $ue->id])) {
+        if ($DB->record_exists('enrol_applyhospice_info', ['userenrolmentid' => $ue->id])) {
         return false; // This line cause some issues with the unenrol of some users without resolving the application first.
         }
          */
@@ -85,10 +85,10 @@ class enrol_applyhospice_plugin extends enrol_plugin {
     public function get_newinstance_link($courseid) {
         $context = context_course::instance($courseid, MUST_EXIST);
 
-        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/apply:config', $context)) {
+        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/applyhospice:config', $context)) {
             return null;
         }
-        return new moodle_url('/enrol/apply/edit.php', array('courseid' => $courseid));
+        return new moodle_url('/enrol/applyhospice/edit.php', array('courseid' => $courseid));
     }
 
     public function enrol_page_hook(stdClass $instance) {
@@ -117,7 +117,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
             }
         }
 
-        require_once "$CFG->dirroot/enrol/apply/apply_form.php";
+        require_once "$CFG->dirroot/enrol/applyhospice/applyhospice_form.php";
 
         $form = new enrol_applyhospice_apply_form(null, $instance);
 
@@ -138,7 +138,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
                 $applicationinfo = new stdClass();
                 $applicationinfo->userenrolmentid = $userenrolment->id;
                 $applicationinfo->comment = $data->applydescription;
-                $DB->insert_record('enrol_applyhospice_applicationinfo', $applicationinfo, false);
+                $DB->insert_record('enrol_applyhospice_info', $applicationinfo, false);
 
                 $this->send_application_notification($instance, $USER->id, $data);
 
@@ -154,15 +154,15 @@ class enrol_applyhospice_plugin extends enrol_plugin {
     public function get_action_icons(stdClass $instance) {
         global $OUTPUT;
 
-        if ($instance->enrol !== 'apply') {
+        if ($instance->enrol !== 'applyhospice') {
             throw new coding_exception('invalid enrol instance!');
         }
         $context = context_course::instance($instance->courseid);
 
         $icons = array();
 
-        if (has_capability('enrol/apply:config', $context)) {
-            $editlink = new moodle_url("/enrol/apply/edit.php", array('courseid' => $instance->courseid, 'id' => $instance->id));
+        if (has_capability('enrol/applyhospice:config', $context)) {
+            $editlink = new moodle_url("/enrol/applyhospice/edit.php", array('courseid' => $instance->courseid, 'id' => $instance->id));
             $icons[] = $OUTPUT->action_icon($editlink, new pix_icon(
                 't/edit',
                 get_string('edit'),
@@ -170,15 +170,15 @@ class enrol_applyhospice_plugin extends enrol_plugin {
                 array('class' => 'iconsmall')));
         }
 
-        if (has_capability('enrol/apply:manageapplications', $context)) {
-            $managelink = new moodle_url("/enrol/apply/manage.php", array('id' => $instance->id));
+        if (has_capability('enrol/applyhospice:manageapplications', $context)) {
+            $managelink = new moodle_url("/enrol/applyhospice/manage.php", array('id' => $instance->id));
             $icons[] = $OUTPUT->action_icon($managelink, new pix_icon(
                 'i/users',
                 get_string('confirmenrol', 'enrol_applyhospice'),
                 'core',
                 array('class' => 'iconsmall')));
 
-            $infolink = new moodle_url("/enrol/apply/info.php", array('id' => $instance->id));
+            $infolink = new moodle_url("/enrol/applyhospice/info.php", array('id' => $instance->id));
             $icons[] = $OUTPUT->action_icon($infolink, new pix_icon(
                 'i/files',
                 get_string('submitted_info', 'enrol_applyhospice'),
@@ -196,7 +196,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
      */
     public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/apply:config', $context);
+        return has_capability('enrol/applyhospice:config', $context);
     }
 
     /**
@@ -207,7 +207,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
      */
     public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/apply:config', $context);
+        return has_capability('enrol/applyhospice:config', $context);
     }
 
     /**
@@ -218,13 +218,13 @@ class enrol_applyhospice_plugin extends enrol_plugin {
      * @return void
      */
     public function add_course_navigation($instancesnode, stdClass $instance) {
-        if ($instance->enrol !== 'apply') {
+        if ($instance->enrol !== 'applyhospice') {
             throw new coding_exception('Invalid enrol instance type!');
         }
 
         $context = context_course::instance($instance->courseid);
-        if (has_capability('enrol/apply:config', $context)) {
-            $managelink = new moodle_url('/enrol/apply/edit.php', array('courseid' => $instance->courseid, 'id' => $instance->id));
+        if (has_capability('enrol/applyhospice:config', $context)) {
+            $managelink = new moodle_url('/enrol/applyhospice/edit.php', array('courseid' => $instance->courseid, 'id' => $instance->id));
             $instancesnode->add($this->get_instance_name($instance), $managelink, navigation_node::TYPE_SETTING);
         }
     }
@@ -235,7 +235,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
         $instance = $ue->enrolmentinstance;
         $params = $manager->get_moodlepage()->url->params();
         $params['ue'] = $ue->id;
-        if ($this->allow_unenrol_user($instance, $ue) && has_capability("enrol/apply:unenrol", $context)) {
+        if ($this->allow_unenrol_user($instance, $ue) && has_capability("enrol/applyhospice:unenrol", $context)) {
             $url = new moodle_url('/enrol/unenroluser.php', $params);
             $actions[] = new user_enrolment_action(
                 new pix_icon('t/delete', ''),
@@ -243,7 +243,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
                 $url,
                 array('class' => 'unenrollink', 'rel' => $ue->id));
         }
-        if ($this->allow_manage($instance) && has_capability("enrol/apply:manage", $context)) {
+        if ($this->allow_manage($instance) && has_capability("enrol/applyhospice:manage", $context)) {
             $url = new moodle_url('/enrol/editenrolment.php', $params);
             $actions[] = new user_enrolment_action(new pix_icon('t/edit', ''), get_string('edit'), $url, array('class' => 'editenrollink', 'rel' => $ue->id));
         }
@@ -283,11 +283,11 @@ class enrol_applyhospice_plugin extends enrol_plugin {
                 '*',
                 MUST_EXIST);
 
-            $instance = $DB->get_record('enrol', array('id' => $userenrolment->enrolid, 'enrol' => 'apply'), '*', MUST_EXIST);
+            $instance = $DB->get_record('enrol', array('id' => $userenrolment->enrolid, 'enrol' => 'applyhospice'), '*', MUST_EXIST);
 
             // Check privileges.
             $context = context_course::instance($instance->courseid, MUST_EXIST);
-            if (!has_capability('enrol/apply:manageapplications', $context)) {
+            if (!has_capability('enrol/applyhospice:manageapplications', $context)) {
                 continue;
             }
 
@@ -299,7 +299,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
             }
 
             $this->update_user_enrol($instance, $userenrolment->userid, ENROL_USER_ACTIVE, $userenrolment->timestart, $userenrolment->timeend);
-            $DB->delete_records('enrol_applyhospice_applicationinfo', array('userenrolmentid' => $enrol));
+            $DB->delete_records('enrol_applyhospice_info', array('userenrolmentid' => $enrol));
 
             $this->notify_applicant(
                 $instance,
@@ -319,11 +319,11 @@ class enrol_applyhospice_plugin extends enrol_plugin {
                 '*', IGNORE_MISSING);
 
             if ($userenrolment != null) {
-                $instance = $DB->get_record('enrol', array('id' => $userenrolment->enrolid, 'enrol' => 'apply'), '*', MUST_EXIST);
+                $instance = $DB->get_record('enrol', array('id' => $userenrolment->enrolid, 'enrol' => 'applyhospice'), '*', MUST_EXIST);
 
                 // Check privileges.
                 $context = context_course::instance($instance->courseid, MUST_EXIST);
-                if (!has_capability('enrol/apply:manageapplications', $context)) {
+                if (!has_capability('enrol/applyhospice:manageapplications', $context)) {
                     continue;
                 }
 
@@ -352,16 +352,16 @@ class enrol_applyhospice_plugin extends enrol_plugin {
                 '*',
                 MUST_EXIST);
 
-            $instance = $DB->get_record('enrol', array('id' => $userenrolment->enrolid, 'enrol' => 'apply'), '*', MUST_EXIST);
+            $instance = $DB->get_record('enrol', array('id' => $userenrolment->enrolid, 'enrol' => 'applyhospice'), '*', MUST_EXIST);
 
             // Check privileges.
             $context = context_course::instance($instance->courseid, MUST_EXIST);
-            if (!has_capability('enrol/apply:manageapplications', $context)) {
+            if (!has_capability('enrol/applyhospice:manageapplications', $context)) {
                 continue;
             }
 
             $this->unenrol_user($instance, $userenrolment->userid);
-            $DB->delete_records('enrol_applyhospice_applicationinfo', array('userenrolmentid' => $enrol));
+            $DB->delete_records('enrol_applyhospice_info', array('userenrolmentid' => $enrol));
 
             $this->notify_applicant(
                 $instance,
@@ -374,7 +374,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
 
     private function notify_applicant($instance, $userenrolment, $type, $subject, $content) {
         global $CFG;
-        require_once $CFG->dirroot . '/enrol/apply/notification.php';
+        require_once $CFG->dirroot . '/enrol/applyhospice/notification.php';
         // Required for course_get_url() function.
         require_once $CFG->dirroot . '/course/lib.php';
 
@@ -396,7 +396,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
 
     private function send_application_notification($instance, $userid, $data) {
         global $CFG, $PAGE;
-        require_once $CFG->dirroot . '/enrol/apply/notification.php';
+        require_once $CFG->dirroot . '/enrol/applyhospice/notification.php';
         // Required for course_get_url() function.
         require_once $CFG->dirroot . '/course/lib.php';
 
@@ -423,7 +423,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
         // Send notification to users with manageapplications in course context (instance depending)?
         $courseuserstonotify = $this->get_notifycoursebased_users($instance);
         if (!empty($courseuserstonotify)) {
-            $manageurl = new moodle_url("/enrol/apply/manage.php", array('id' => $instance->id));
+            $manageurl = new moodle_url("/enrol/applyhospice/manage.php", array('id' => $instance->id));
             $content = $renderer->application_notification_mail_body(
                 $course,
                 $applicant,
@@ -450,7 +450,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
             return $usera->id == $userb->id ? 0 : -1;
         });
         if (!empty($globaluserstonotify)) {
-            $manageurl = new moodle_url('/enrol/apply/manage.php');
+            $manageurl = new moodle_url('/enrol/applyhospice/manage.php');
             $content = $renderer->application_notification_mail_body(
                 $course,
                 $applicant,
@@ -490,7 +490,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
         // We have to make sure that users still have the necessary capability,
         // it should be faster to fetch them all first and then test if they are present
         // instead of validating them one-by-one.
-        $users = get_enrolled_users($context, 'enrol/apply:manageapplications');
+        $users = get_enrolled_users($context, 'enrol/applyhospice:manageapplications');
 
         if ($value === '$@ALL@$') {
             return $users;
@@ -513,7 +513,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
      * @return array Array of user IDs.
      */
     public function get_notifyglobal_users() {
-        return get_users_from_config($this->get_config('notifyglobal'), 'enrol/apply:manageapplications', false);
+        return get_users_from_config($this->get_config('notifyglobal'), 'enrol/applyhospice:manageapplications', false);
     }
 
     private function update_mail_content($content, $course, $user, $userenrolment) {

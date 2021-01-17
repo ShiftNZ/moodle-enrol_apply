@@ -41,14 +41,14 @@ class enrol_applyhospice_info_table extends table_sql {
             $sqlparams['enrolid'] = $enrolid;
         } else {
             $sqlwhere .= " AND e.enrol = :enrol";
-            $sqlparams['enrol'] = 'apply';
+            $sqlparams['enrol'] = 'applyhospice';
         }
 
         $this->set_sql(
             'ue.id AS userenrolmentid, ue.userid, ue.status AS enrolstatus, ue.timecreated AS applydate,
             ai.comment AS applycomment, u.*, c.fullname as course',
             "{user_enrolments} AS ue
-            LEFT JOIN {enrol_applyhospice_applicationinfo} ai ON ai.userenrolmentid = ue.id
+            LEFT JOIN {enrol_applyhospice_info} ai ON ai.userenrolmentid = ue.id
             JOIN {user} u ON u.id = ue.userid
             JOIN {enrol} e ON e.id = ue.enrolid
             JOIN {course} c ON c.id = e.courseid",

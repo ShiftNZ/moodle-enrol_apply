@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2021011800;
+$plugin->version = 2021011802;
 $plugin->requires = 2011080100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = 'Enrolment upon approval plugin (Customized for Hospice Waikato)';

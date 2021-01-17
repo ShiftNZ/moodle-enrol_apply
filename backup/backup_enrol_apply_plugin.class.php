@@ -49,7 +49,7 @@ class backup_enrol_applyhospice_plugin extends backup_enrol_plugin {
         $applymaps->add_child($applymap);
 
         // set source to populate the data
-        $applymap->set_source_table('enrol_applyhospice_applicationinfo',
+        $applymap->set_source_table('enrol_applyhospice_info',
             array('enrol' => backup::VAR_PARENTID));
 
         return $plugin;

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="enrol/apply/db" VERSION="20160409" COMMENT="XMLDB file for Moodle enrol/apply"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
->
+<XMLDB PATH="enrol/applyhospice/db" VERSION="20160409" COMMENT="XMLDB file for Moodle enrol/applyhospice"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
   <TABLES>
-    <TABLE NAME="enrol_applyhospice_applicationinfo" COMMENT="Table containing additional information for each enrolment application.">
+    <TABLE NAME="enrol_applyhospice_info" COMMENT="Table containing additional information for each enrolment application.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userenrolmentid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="user enrolment id this entry belongs to"/>

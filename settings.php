@@ -94,7 +94,7 @@ if ($ADMIN->fulltree) {
         get_string('notifyglobal', 'enrol_applyhospice'),
         get_string('notifyglobal_desc', 'enrol_applyhospice'),
         array(),
-        'enrol/apply:manageapplications'));
+        'enrol/applyhospice:manageapplications'));
 
     // Expiry settings.
     $settings->add(new admin_setting_heading(
@@ -160,5 +160,5 @@ if ($ADMIN->fulltree) {
 if ($hassiteconfig) { // Needs this condition or there is error on login page.
     $ADMIN->add('courses', new admin_externalpage('enrol_applyhospice',
         get_string('applymanage', 'enrol_applyhospice'),
-        new moodle_url('/enrol/apply/manage.php')));
+        new moodle_url('/enrol/applyhospice/manage.php')));
 }

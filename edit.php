@@ -32,24 +32,24 @@ $course = get_course($courseid);
 $context = context_course::instance($course->id, MUST_EXIST);
 
 require_login($course);
-require_capability('enrol/apply:config', $context);
+require_capability('enrol/applyhospice:config', $context);
 
-$PAGE->set_url('/enrol/apply/edit.php', array('courseid' => $course->id, 'id' => $instanceid));
+$PAGE->set_url('/enrol/applyhospice/edit.php', array('courseid' => $course->id, 'id' => $instanceid));
 $PAGE->set_pagelayout('admin');
 
 $return = new moodle_url('/enrol/instances.php', array('id' => $course->id));
-if (!enrol_is_enabled('apply')) {
+if (!enrol_is_enabled('applyhospice')) {
     redirect($return);
 }
 
-$plugin = enrol_get_plugin('apply');
+$plugin = enrol_get_plugin('applyhospice');
 
 if ($instanceid) {
     $instance = $DB->get_record(
         'enrol',
         array(
             'courseid' => $course->id,
-            'enrol' => 'apply',
+            'enrol' => 'applyhospice',
             'id' => $instanceid),
         '*', MUST_EXIST);
 } else {

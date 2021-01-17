@@ -22,9 +22,9 @@
  */
 
 require_once '../../config.php';
-require_once $CFG->dirroot . '/enrol/apply/lib.php';
-require_once $CFG->dirroot . '/enrol/apply/info_table.php';
-require_once $CFG->dirroot . '/enrol/apply/renderer.php';
+require_once $CFG->dirroot . '/enrol/applyhospice/lib.php';
+require_once $CFG->dirroot . '/enrol/applyhospice/info_table.php';
+require_once $CFG->dirroot . '/enrol/applyhospice/renderer.php';
 
 $id = optional_param('id', null, PARAM_INT);
 $formaction = optional_param('formaction', null, PARAM_TEXT);
@@ -35,19 +35,19 @@ require_login();
 $manageurlparams = array();
 if ($id == null) {
     $context = context_system::instance();
-    require_capability('enrol/apply:manageapplications', $context);
+    require_capability('enrol/applyhospice:manageapplications', $context);
     $pageheading = get_string('submitted_info', 'enrol_applyhospice');
 } else {
-    $instance = $DB->get_record('enrol', array('id' => $id, 'enrol' => 'apply'), '*', MUST_EXIST);
+    $instance = $DB->get_record('enrol', array('id' => $id, 'enrol' => 'applyhospice'), '*', MUST_EXIST);
     require_course_login($instance->courseid);
     $course = get_course($instance->courseid);
     $context = context_course::instance($course->id, MUST_EXIST);
-    require_capability('enrol/apply:manageapplications', $context);
+    require_capability('enrol/applyhospice:manageapplications', $context);
     $manageurlparams['id'] = $instance->id;
     $pageheading = $course->fullname;
 }
 
-$manageurl = new moodle_url('/enrol/apply/info.php', $manageurlparams);
+$manageurl = new moodle_url('/enrol/applyhospice/info.php', $manageurlparams);
 
 $PAGE->set_context($context);
 $PAGE->set_url($manageurl);
@@ -55,7 +55,7 @@ $PAGE->set_pagelayout('admin');
 $PAGE->set_heading($pageheading);
 $PAGE->navbar->add(get_string('submitted_info', 'enrol_applyhospice'));
 $PAGE->set_title(get_string('submitted_info', 'enrol_applyhospice'));
-$PAGE->requires->css('/enrol/apply/style.css');
+$PAGE->requires->css('/enrol/applyhospice/style.css');
 
 $table = new enrol_applyhospice_info_table($id);
 $table->define_baseurl($manageurl);

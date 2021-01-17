@@ -78,9 +78,9 @@ class enrol_applyhospice_edit_form extends moodleform {
 
         $choices = array(
             '$@NONE@$' => get_string('nobody'),
-            '$@ALL@$' => get_string('everyonewhocan', 'admin', get_capability_string('enrol/apply:manageapplications')));
+            '$@ALL@$' => get_string('everyonewhocan', 'admin', get_capability_string('enrol/applyhospice:manageapplications')));
         //TODO: Add a new option to this list -
-        $users = get_enrolled_users($context, 'enrol/apply:manageapplications');
+        $users = get_enrolled_users($context, 'enrol/applyhospice:manageapplications');
         foreach ($users as $userid => $user) {
             $choices[$userid] = fullname($user);
         }

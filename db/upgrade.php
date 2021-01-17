@@ -30,36 +30,36 @@ function xmldb_enrol_applyhospice_upgrade($oldversion) {
 
     if ($oldversion < 2016012801) {
 
-        // Define table enrol_applyhospice_applicationinfo to be created.
-        $table = new xmldb_table('enrol_applyhospice_applicationinfo');
+        // Define table enrol_applyhospice_info to be created.
+        $table = new xmldb_table('enrol_applyhospice_info');
 
-        // Adding fields to table enrol_applyhospice_applicationinfo.
+        // Adding fields to table enrol_applyhospice_info.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userenrolmentid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('comment', XMLDB_TYPE_TEXT, null, null, null, null, null);
 
-        // Adding keys to table enrol_applyhospice_applicationinfo.
+        // Adding keys to table enrol_applyhospice_info.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_key('userenrolment', XMLDB_KEY_FOREIGN_UNIQUE, array('userenrolmentid'), 'user_enrolments', array('id'));
 
-        // Conditionally launch create table for enrol_applyhospice_applicationinfo.
+        // Conditionally launch create table for enrol_applyhospice_info.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
 
         // Apply savepoint reached.
-        upgrade_plugin_savepoint(true, 2016012801, 'enrol', 'apply');
+        upgrade_plugin_savepoint(true, 2016012801, 'enrol', 'applyhospice');
     }
 
     if ($oldversion < 2016042202) {
         // Invert settings for showing standard and extra user profile fields.
-        $enrolapply = enrol_get_plugin('apply');
+        $enrolapply = enrol_get_plugin('applyhospice');
         $showstandarduserprofile = $enrolapply->get_config('show_standard_user_profile') == 0 ? true : false;
         $enrolapply->set_config('show_standard_user_profile', $showstandarduserprofile);
         $showextrauserprofile = $enrolapply->get_config('show_extra_user_profile') == 0 ? true : false;
         $enrolapply->set_config('show_extra_user_profile', $showextrauserprofile);
 
-        $instances = $DB->get_records('enrol', array('enrol' => 'apply'));
+        $instances = $DB->get_records('enrol', array('enrol' => 'applyhospice'));
         foreach ($instances as $instance) {
             $instance->customint1 = !$instance->customint1;
             $instance->customint2 = !$instance->customint2;
@@ -69,7 +69,7 @@ function xmldb_enrol_applyhospice_upgrade($oldversion) {
 
     if ($oldversion < 2016060803) {
         // Convert old notification settings.
-        $enrolapply = enrol_get_plugin('apply');
+        $enrolapply = enrol_get_plugin('applyhospice');
 
         $sendmailtoteacher = $enrolapply->get_config('sendmailtoteacher');
         $notifycoursebased = $sendmailtoteacher;
@@ -81,7 +81,7 @@ function xmldb_enrol_applyhospice_upgrade($oldversion) {
         $enrolapply->set_config('notifyglobal', $notifyglobal);
         $enrolapply->set_config('sendmailtomanager', null);
 
-        $instances = $DB->get_records('enrol', array('enrol' => 'apply'));
+        $instances = $DB->get_records('enrol', array('enrol' => 'applyhospice'));
         foreach ($instances as $instance) {
             $sendmailtoteacher = $instance->customint3;
             $notify = $sendmailtoteacher ? '$@ALL@$' : '';
@@ -93,9 +93,9 @@ function xmldb_enrol_applyhospice_upgrade($oldversion) {
     }
 
     if ($oldversion < 2017032400) {
-        $enrolapply = enrol_get_plugin('apply');
+        $enrolapply = enrol_get_plugin('applyhospice');
 
-        $instances = $DB->get_records('enrol', array('enrol' => 'apply'));
+        $instances = $DB->get_records('enrol', array('enrol' => 'applyhospice'));
         foreach ($instances as $instance) {
             $instance->customint3 = 0;
             $DB->update_record('enrol', $instance, true);
@@ -103,7 +103,7 @@ function xmldb_enrol_applyhospice_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018112603) {
-        $instances = $DB->get_records('enrol', array('enrol' => 'apply'));
+        $instances = $DB->get_records('enrol', array('enrol' => 'applyhospice'));
         foreach ($instances as $instance) {
             $instance->customint6 = 1;
             $DB->update_record('enrol', $instance, true);

@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 $messageproviders = array(
     // Notify teacher/manager that a student has applied for a course enrolment.
     'application' => array(
-        'capability' => 'enrol/apply:manageapplications',
+        'capability' => 'enrol/applyhospice:manageapplications',
     ),
 
     // Notify student that his application was confirmed.

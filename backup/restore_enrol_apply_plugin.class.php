@@ -2,7 +2,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once $CFG->dirroot . '/enrol/apply/lib.php';
+require_once $CFG->dirroot . '/enrol/applyhospice/lib.php';
 
 /**
  * Provides the information to restore test enrol instances
@@ -29,12 +29,12 @@ class restore_enrol_applyhospice_plugin extends restore_enrol_plugin {
             return; // Enrol instance was not restored
         }
         $type = $DB->get_field('enrol', 'enrol', array('id' => $enrolid));
-        if ($type !== 'apply') {
+        if ($type !== 'applyhospice') {
             return; // Enrol was likely converted to manual
         }
         $data->enrolid = $enrolid;
         $data->courseid = $this->task->get_courseid();
-        $newitemid = $DB->insert_record('enrol_applyhospice_applicationinfo', $data);
+        $newitemid = $DB->insert_record('enrol_applyhospice_info', $data);
     }
 
 }
