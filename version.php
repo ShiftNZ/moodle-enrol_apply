@@ -24,8 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2019120400;
+$plugin->version = 2019120400; // TODO: reversion to 2021
 $plugin->requires = 2011080100;
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'Enrolment upon approval plugin Version 3.7-a';
-$plugin->component = 'enrol_apply';
+$plugin->release = 'Enrolment upon approval plugin Version 3.7-a'; // TODO: rename
+$plugin->component = 'enrol_apply'; // TODO: refactor
+// TODO: Add event hook to add newly confirmed users to the waitlist

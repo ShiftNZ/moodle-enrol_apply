@@ -65,7 +65,7 @@ $string['applicationconfirmednotification'] = 'Your course enrolment application
 $string['applicationcancelednotification'] = 'Your course enrolment application was canceled.';
 $string['applicationdeferrednotification'] = 'Your course enrolment application was deferred (you are currently on the waiting list).';
 
-$string['confirmusers'] = 'Enrol Confirm';
+$string['confirmusers'] = 'Enrol Confirm'; // TODO: make this dynamically include the managing users region
 $string['confirmusers_desc'] = 'Users in gray colored rows are on the waiting list.';
 
 $string['coursename'] = 'Course';

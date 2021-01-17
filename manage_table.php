@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/tablelib.php');
+require_once $CFG->libdir . '/tablelib.php';
 
 class enrol_apply_manage_table extends table_sql {
 
@@ -55,6 +55,7 @@ class enrol_apply_manage_table extends table_sql {
             JOIN {course} c ON c.id = e.courseid",
             $sqlwhere,
             $sqlparams);
+        // TODO: Filter this list of users based on the users profile field hospice having the same region as the user viewing this form
 
         $this->no_sorting('checkboxcolumn');
     }

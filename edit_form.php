@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/formslib.php');
+require_once $CFG->libdir . '/formslib.php';
 
 class enrol_apply_edit_form extends moodleform {
 
@@ -41,13 +41,13 @@ class enrol_apply_edit_form extends moodleform {
 
         $mform->addElement('select', 'status', get_string('status', 'enrol_apply'), array(
             ENROL_INSTANCE_ENABLED => get_string('yes'),
-            ENROL_INSTANCE_DISABLED  => get_string('no')));
+            ENROL_INSTANCE_DISABLED => get_string('no')));
         // $mform->addHelpButton('status', 'status', 'enrol_apply');
         $mform->setDefault('status', $plugin->get_config('status'));
 
         $mform->addElement('select', 'customint6', get_string('newenrols', 'enrol_apply'), array(
-                1 => get_string('yes'),
-                0 => get_string('no')
+            1 => get_string('yes'),
+            0 => get_string('no'),
         ));
         $mform->setDefault('newenrols', $plugin->get_config('newenrols'));
 
@@ -68,7 +68,7 @@ class enrol_apply_edit_form extends moodleform {
         $mform->setDefault('customtext2', "Comment");
 
         $options = array(1 => get_string('yes'),
-                         0 => get_string('no'));
+            0 => get_string('no'));
 
         $mform->addElement('select', 'customint1', get_string('show_standard_user_profile', 'enrol_apply'), $options);
         $mform->setDefault('customint1', $plugin->get_config('customint1'));
@@ -79,6 +79,7 @@ class enrol_apply_edit_form extends moodleform {
         $choices = array(
             '$@NONE@$' => get_string('nobody'),
             '$@ALL@$' => get_string('everyonewhocan', 'admin', get_capability_string('enrol/apply:manageapplications')));
+        //TODO: Add a new option to this list -
         $users = get_enrolled_users($context, 'enrol/apply:manageapplications');
         foreach ($users as $userid => $user) {
             $choices[$userid] = fullname($user);
@@ -86,14 +87,12 @@ class enrol_apply_edit_form extends moodleform {
         $select = $mform->addElement('select', 'notify', get_string('notify_desc', 'enrol_apply'), $choices);
         $select->setMultiple(true);
         $userid = $DB->get_field('enrol', 'customtext3', array('id' => $instance->id), IGNORE_MISSING);
-        if(!empty($userid)) {
-            if($userid == '$@ALL@$') {
+        if (!empty($userid)) {
+            if ($userid == '$@ALL@$') {
                 $select->setSelected('$@ALL@$');
-            }
-            else if($userid == '$@NONE@$') {
+            } else if ($userid == '$@NONE@$') {
                 $select->setSelected('$@NONE@$');
-            }
-            else {
+            } else {
                 $userid = explode(",", $userid);
                 $select->setSelected($userid);
             }
