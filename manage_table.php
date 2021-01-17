@@ -16,7 +16,7 @@
 
 /**
  *
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  2016 sudile GbR (http://www.sudile.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Johannes Burk <johannes.burk@sudile.com>
@@ -26,12 +26,12 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once $CFG->libdir . '/tablelib.php';
 
-class enrol_apply_manage_table extends table_sql {
+class enrol_applyhospice_manage_table extends table_sql {
 
     public $is_collapsible = false;
 
     public function __construct($enrolid = null) {
-        parent::__construct('enrol_apply_manage_table');
+        parent::__construct('enrol_applyhospice_manage_table');
 
         global $DB;
 
@@ -49,7 +49,7 @@ class enrol_apply_manage_table extends table_sql {
             'ue.id AS userenrolmentid, ue.userid, ue.status AS enrolstatus, ue.timecreated AS applydate,
             ai.comment AS applycomment, u.*, c.fullname as course',
             "{user_enrolments} AS ue
-            LEFT JOIN {enrol_apply_applicationinfo} ai ON ai.userenrolmentid = ue.id
+            LEFT JOIN {enrol_applyhospice_applicationinfo} ai ON ai.userenrolmentid = ue.id
             JOIN {user} u ON u.id = ue.userid
             JOIN {enrol} e ON e.id = ue.enrolid
             JOIN {course} c ON c.id = e.courseid",
@@ -67,7 +67,7 @@ class enrol_apply_manage_table extends table_sql {
      */
     public function get_row_class($row) {
         if ($row->enrolstatus == 2) {
-            return 'enrol_apply_waitinglist_highlight';
+            return 'enrol_applyhospice_waitinglist_highlight';
         }
         return '';
     }

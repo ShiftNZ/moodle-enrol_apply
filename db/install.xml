@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="enrol_apply_applicationinfo" COMMENT="Table containing additional information for each enrolment application.">
+    <TABLE NAME="enrol_applyhospice_applicationinfo" COMMENT="Table containing additional information for each enrolment application.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userenrolmentid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="user enrolment id this entry belongs to"/>

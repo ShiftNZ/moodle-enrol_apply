@@ -16,7 +16,7 @@
 
 /**
  *
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  2016 sudile GbR (http://www.sudile.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Johannes Burk <johannes.burk@sudile.com>
@@ -24,25 +24,25 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class enrol_apply_renderer extends plugin_renderer_base {
+class enrol_applyhospice_renderer extends plugin_renderer_base {
     public function manage_page($table, $manageurl, $instance) {
         echo $this->header();
-        echo $this->heading(get_string('confirmusers', 'enrol_apply'));
-        echo get_string('confirmusers_desc', 'enrol_apply');
+        echo $this->heading(get_string('confirmusers', 'enrol_applyhospice'));
+        echo get_string('confirmusers_desc', 'enrol_applyhospice');
         $this->manage_form($table, $manageurl, $instance);
         echo $this->footer();
     }
 
     public function edit_page($mform) {
         echo $this->header();
-        echo $this->heading(get_string('pluginname', 'enrol_apply'));
+        echo $this->heading(get_string('pluginname', 'enrol_applyhospice'));
         $mform->display();
         echo $this->footer();
     }
 
     public function manage_form($table, $manageurl, $instance) {
         echo html_writer::start_tag('form', array(
-            'id' => 'enrol_apply_manage_form',
+            'id' => 'enrol_applyhospice_manage_form',
             'method' => 'post',
             'action' => $manageurl->out()));
 
@@ -53,9 +53,9 @@ class enrol_apply_renderer extends plugin_renderer_base {
             echo html_writer::start_tag('div', array('class' => 'formaction'));
 
             $formactions = array(
-                'confirm' => get_string('btnconfirm', 'enrol_apply'),
-                'wait' => get_string('btnwait', 'enrol_apply'),
-                'cancel' => get_string('btncancel', 'enrol_apply'));
+                'confirm' => get_string('btnconfirm', 'enrol_applyhospice'),
+                'wait' => get_string('btnwait', 'enrol_applyhospice'),
+                'cancel' => get_string('btncancel', 'enrol_applyhospice'));
             echo html_writer::tag('label', get_string('withselectedusers'), array('for' => 'formaction'));
             echo html_writer::select($formactions, 'formaction', '', array('' => 'choosedots'), array('id' => 'formaction'));
             echo html_writer::tag('noscript',
@@ -64,16 +64,16 @@ class enrol_apply_renderer extends plugin_renderer_base {
 
             echo html_writer::end_tag('div');
 
-            $this->page->requires->js_call_amd('enrol_apply/manage', 'init');
+            $this->page->requires->js_call_amd('enrol_applyhospice/manage', 'init');
         }
         echo html_writer::end_tag('form');
     }
 
-    public function info_page($table, $manageurl,$instance) {
+    public function info_page($table, $manageurl, $instance) {
         echo $this->header();
-        echo $this->heading(get_string('submitted_info', 'enrol_apply'));
-        echo get_string('submitted_info', 'enrol_apply');
-        $this->info_form($table, $manageurl,$instance);
+        echo $this->heading(get_string('submitted_info', 'enrol_applyhospice'));
+        echo get_string('submitted_info', 'enrol_applyhospice');
+        $this->info_form($table, $manageurl, $instance);
         echo $this->footer();
     }
 
@@ -90,8 +90,8 @@ class enrol_apply_renderer extends plugin_renderer_base {
             get_string('course'),
             'fullname', // Magic happens here: The column heading will automatically be set due to column name 'fullname'.
             get_string('email'),
-            get_string('applydate', 'enrol_apply'),
-            get_string('applycomment', 'enrol_apply'),
+            get_string('applydate', 'enrol_applyhospice'),
+            get_string('applycomment', 'enrol_applyhospice'),
         );
         $table->define_columns($columns);
         $table->define_headers($headers);
@@ -101,27 +101,26 @@ class enrol_apply_renderer extends plugin_renderer_base {
         $table->out(50, true);
     }
 
-    public function info_form($table, $manageurl,$instance) {
+    public function info_form($table, $manageurl, $instance) {
         echo html_writer::start_tag('form', array(
-            'id' => 'enrol_apply_info_form',
+            'id' => 'enrol_applyhospice_info_form',
             'method' => 'post',
             'action' => $manageurl->out()));
 
-        $this->info_table($table,$instance);
+        $this->info_table($table, $instance);
 
         if ($table->totalrows > 0) {
             echo html_writer::empty_tag('br');
             echo html_writer::start_tag('div', array('class' => 'formaction'));
 
-
             echo html_writer::end_tag('div');
 
-            $this->page->requires->js_call_amd('enrol_apply/info', 'init');
+            $this->page->requires->js_call_amd('enrol_applyhospice/info', 'init');
         }
         echo html_writer::end_tag('form');
     }
 
-    public function info_table($table,$instance) {
+    public function info_table($table, $instance) {
         $columns = array(
             'fullname',
             'applycomment');
@@ -139,46 +138,46 @@ class enrol_apply_renderer extends plugin_renderer_base {
     public function application_notification_mail_body(
         $course, $user, $manageurl, $applydescription, $standarduserfields = null, $extrauserfields = null) {
 
-        $body = '<p>'. get_string('coursename', 'enrol_apply') .': '.format_string($course->fullname).'</p>';
-        $body .= '<p>'. get_string('applyuser', 'enrol_apply') .': '.$user->firstname.' '.$user->lastname.'</p>';
-        $body .= '<p>'. get_string('comment', 'enrol_apply') .': '.$applydescription.'</p>';
+        $body = '<p>' . get_string('coursename', 'enrol_applyhospice') . ': ' . format_string($course->fullname) . '</p>';
+        $body .= '<p>' . get_string('applyuser', 'enrol_applyhospice') . ': ' . $user->firstname . ' ' . $user->lastname . '</p>';
+        $body .= '<p>' . get_string('comment', 'enrol_applyhospice') . ': ' . $applydescription . '</p>';
         if ($standarduserfields) {
-            $body .= '<p><strong>'. get_string('user_profile', 'enrol_apply').'</strong></p>';
-            $body .= '<p>'. get_string('firstname') .': '.$standarduserfields->firstname.'</p>';
-            $body .= '<p>'. get_string('lastname') .': '.$standarduserfields->lastname.'</p>';
-            $body .= '<p>'. get_string('email') .': '.$standarduserfields->email.'</p>';
-            $body .= '<p>'. get_string('city') .': '.$standarduserfields->city.'</p>';
-            $body .= '<p>'. get_string('country') .': '.$standarduserfields->country.'</p>';
-            if(isset($standarduserfields->lang)){
-                $body .= '<p>'. get_string('preferredlanguage') .': '.$standarduserfields->lang.'</p>';
+            $body .= '<p><strong>' . get_string('user_profile', 'enrol_applyhospice') . '</strong></p>';
+            $body .= '<p>' . get_string('firstname') . ': ' . $standarduserfields->firstname . '</p>';
+            $body .= '<p>' . get_string('lastname') . ': ' . $standarduserfields->lastname . '</p>';
+            $body .= '<p>' . get_string('email') . ': ' . $standarduserfields->email . '</p>';
+            $body .= '<p>' . get_string('city') . ': ' . $standarduserfields->city . '</p>';
+            $body .= '<p>' . get_string('country') . ': ' . $standarduserfields->country . '</p>';
+            if (isset($standarduserfields->lang)) {
+                $body .= '<p>' . get_string('preferredlanguage') . ': ' . $standarduserfields->lang . '</p>';
             }
-            $body .= '<p>'. get_string('description') .': '.$standarduserfields->description_editor['text'].'</p>';
+            $body .= '<p>' . get_string('description') . ': ' . $standarduserfields->description_editor['text'] . '</p>';
 
-            $body .= '<p>'. get_string('firstnamephonetic') .': '.$standarduserfields->firstnamephonetic.'</p>';
-            $body .= '<p>'. get_string('lastnamephonetic') .': '.$standarduserfields->lastnamephonetic.'</p>';
-            $body .= '<p>'. get_string('middlename') .': '.$standarduserfields->middlename.'</p>';
-            $body .= '<p>'. get_string('alternatename') .': '.$standarduserfields->alternatename.'</p>';
-            $body .= '<p>'. get_string('url') .': '.$standarduserfields->url.'</p>';
-            $body .= '<p>'. get_string('icqnumber') .': '.$standarduserfields->icq.'</p>';
-            $body .= '<p>'. get_string('skypeid') .': '.$standarduserfields->skype.'</p>';
-            $body .= '<p>'. get_string('aimid') .': '.$standarduserfields->aim.'</p>';
-            $body .= '<p>'. get_string('yahooid') .': '.$standarduserfields->yahoo.'</p>';
-            $body .= '<p>'. get_string('msnid') .': '.$standarduserfields->msn.'</p>';
-            $body .= '<p>'. get_string('idnumber') .': '.$standarduserfields->idnumber.'</p>';
-            $body .= '<p>'. get_string('institution') .': '.$standarduserfields->institution.'</p>';
-            $body .= '<p>'. get_string('department') .': '.$standarduserfields->department.'</p>';
-            $body .= '<p>'. get_string('phone') .': '.$standarduserfields->phone1.'</p>';
-            $body .= '<p>'. get_string('phone2') .': '.$standarduserfields->phone2.'</p>';
-            $body .= '<p>'. get_string('address') .': '.$standarduserfields->address.'</p>';
+            $body .= '<p>' . get_string('firstnamephonetic') . ': ' . $standarduserfields->firstnamephonetic . '</p>';
+            $body .= '<p>' . get_string('lastnamephonetic') . ': ' . $standarduserfields->lastnamephonetic . '</p>';
+            $body .= '<p>' . get_string('middlename') . ': ' . $standarduserfields->middlename . '</p>';
+            $body .= '<p>' . get_string('alternatename') . ': ' . $standarduserfields->alternatename . '</p>';
+            $body .= '<p>' . get_string('url') . ': ' . $standarduserfields->url . '</p>';
+            $body .= '<p>' . get_string('icqnumber') . ': ' . $standarduserfields->icq . '</p>';
+            $body .= '<p>' . get_string('skypeid') . ': ' . $standarduserfields->skype . '</p>';
+            $body .= '<p>' . get_string('aimid') . ': ' . $standarduserfields->aim . '</p>';
+            $body .= '<p>' . get_string('yahooid') . ': ' . $standarduserfields->yahoo . '</p>';
+            $body .= '<p>' . get_string('msnid') . ': ' . $standarduserfields->msn . '</p>';
+            $body .= '<p>' . get_string('idnumber') . ': ' . $standarduserfields->idnumber . '</p>';
+            $body .= '<p>' . get_string('institution') . ': ' . $standarduserfields->institution . '</p>';
+            $body .= '<p>' . get_string('department') . ': ' . $standarduserfields->department . '</p>';
+            $body .= '<p>' . get_string('phone') . ': ' . $standarduserfields->phone1 . '</p>';
+            $body .= '<p>' . get_string('phone2') . ': ' . $standarduserfields->phone2 . '</p>';
+            $body .= '<p>' . get_string('address') . ': ' . $standarduserfields->address . '</p>';
         }
 
         if ($extrauserfields) {
             foreach ($extrauserfields as $key => $value) {
-                $body .= '<p>'. $key .': '.$value.'</p>';
+                $body .= '<p>' . $key . ': ' . $value . '</p>';
             }
         }
 
-        $body .= '<p>'. html_writer::link($manageurl, get_string('applymanage', 'enrol_apply')).'</p>';
+        $body .= '<p>' . html_writer::link($manageurl, get_string('applymanage', 'enrol_applyhospice')) . '</p>';
 
         return $body;
     }

@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  emeneo.com (http://emeneo.com/)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     emeneo.com (http://emeneo.com/)
  * @author     Johannes Burk <johannes.burk@sudile.com>
  */
 
-require('../../config.php');
-require_once('edit_form.php');
+require '../../config.php';
+require_once 'edit_form.php';
 
-$courseid   = required_param('courseid', PARAM_INT);
+$courseid = required_param('courseid', PARAM_INT);
 $instanceid = optional_param('id', 0, PARAM_INT);
 
 $course = get_course($courseid);
@@ -56,8 +56,8 @@ if ($instanceid) {
     require_capability('moodle/course:enrolconfig', $context);
     // No instance yet, we have to add new instance.
     navigation_node::override_active_url(new moodle_url('/enrol/instances.php', array('id' => $course->id)));
-    $instance = (object)$plugin->get_instance_defaults();
-    $instance->id       = null;
+    $instance = (object) $plugin->get_instance_defaults();
+    $instance->id = null;
     $instance->courseid = $course->id;
 }
 
@@ -66,12 +66,12 @@ if ($instanceid) {
 //$notify = array('$@NONE@$');
 /*
 if ($instance->customtext2 != '') {
-    $notify = explode(',', $instance->customtext2);
+$notify = explode(',', $instance->customtext2);
 }
-*/
+ */
 //$instance->notify = $notify;
 
-$mform = new enrol_apply_edit_form(null, array($instance, $plugin, $context));
+$mform = new enrol_applyhospice_edit_form(null, array($instance, $plugin, $context));
 
 if ($mform->is_cancelled()) {
     redirect($return);
@@ -93,32 +93,32 @@ if ($mform->is_cancelled()) {
     $notify = implode(",", $notify);
 
     if ($instance->id) {
-        $instance->status           = $data->status;
-        $instance->name             = $data->name;
-        $instance->customtext1      = $data->customtext1;
-        $instance->customtext2      = $data->customtext2;
-        $instance->customtext3      = $notify;
-        $instance->customint1       = $data->customint1;
-        $instance->customint2       = $data->customint2;
-        $instance->customint3       = $data->customint3;
-        $instance->customint6       = $data->customint6;
-        $instance->roleid           = $data->roleid;
-        $instance->enrolperiod      = $data->enrolperiod;
+        $instance->status = $data->status;
+        $instance->name = $data->name;
+        $instance->customtext1 = $data->customtext1;
+        $instance->customtext2 = $data->customtext2;
+        $instance->customtext3 = $notify;
+        $instance->customint1 = $data->customint1;
+        $instance->customint2 = $data->customint2;
+        $instance->customint3 = $data->customint3;
+        $instance->customint6 = $data->customint6;
+        $instance->roleid = $data->roleid;
+        $instance->enrolperiod = $data->enrolperiod;
         $instance->timemodified = time();
         $DB->update_record('enrol', $instance);
     } else {
         $fields = array(
-            'status'            => $data->status,
-            'name'              => $data->name,
-            'roleid'            => $data->roleid,
-            'customint1'        => $data->customint1,
-            'customint2'        => $data->customint2,
-            'customint3'        => $data->customint3,
-            'customint6'        => $data->customint6,
-            'customtext1'       => $data->customtext1,
-            'customtext2'       => $data->customtext2,
-            'customtext3'       => $notify,
-            'enrolperiod'       => $data->enrolperiod
+            'status' => $data->status,
+            'name' => $data->name,
+            'roleid' => $data->roleid,
+            'customint1' => $data->customint1,
+            'customint2' => $data->customint2,
+            'customint3' => $data->customint3,
+            'customint6' => $data->customint6,
+            'customtext1' => $data->customtext1,
+            'customtext2' => $data->customtext2,
+            'customtext3' => $notify,
+            'enrolperiod' => $data->enrolperiod,
         );
         $plugin->add_instance($course, $fields);
     }
@@ -127,7 +127,7 @@ if ($mform->is_cancelled()) {
 }
 
 $PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_title(get_string('pluginname', 'enrol_apply'));
+$PAGE->set_title(get_string('pluginname', 'enrol_applyhospice'));
 
-$renderer = $PAGE->get_renderer('enrol_apply');
+$renderer = $PAGE->get_renderer('enrol_applyhospice');
 $renderer->edit_page($mform);

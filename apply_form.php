@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  emeneo.com (http://emeneo.com/)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     emeneo.com (http://emeneo.com/)
@@ -24,11 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/formslib.php');
-require_once($CFG->dirroot.'/user/editlib.php');
-require_once($CFG->dirroot.'/user/profile/lib.php');
+require_once $CFG->libdir . '/formslib.php';
+require_once $CFG->dirroot . '/user/editlib.php';
+require_once $CFG->dirroot . '/user/profile/lib.php';
 
-class enrol_apply_apply_form extends moodleform {
+class enrol_applyhospice_apply_form extends moodleform {
     protected $instance;
 
     /**
@@ -37,7 +37,7 @@ class enrol_apply_apply_form extends moodleform {
      * @return string form identifier
      */
     protected function get_form_identifier() {
-        $formid = $this->_customdata->id.'_'.get_class($this);
+        $formid = $this->_customdata->id . '_' . get_class($this);
         return $formid;
     }
 
@@ -55,13 +55,13 @@ class enrol_apply_apply_form extends moodleform {
         if ($instance->customint3 > 0) {
             $count = $DB->count_records('user_enrolments', array('enrolid' => $instance->id));
             if ($count < $instance->customint3) {
-                $mform->addElement('html', '<div class="alert alert-info">'.$count.' '.get_string('maxenrolled_tip_1', 'enrol_apply').' '.$instance->customint3.' '.get_string('maxenrolled_tip_2', 'enrol_apply').'</div>');
+                $mform->addElement('html', '<div class="alert alert-info">' . $count . ' ' . get_string('maxenrolled_tip_1', 'enrol_applyhospice') . ' ' . $instance->customint3 . ' ' . get_string('maxenrolled_tip_2', 'enrol_applyhospice') . '</div>');
             }
         }
 
-        $mform->addElement('html', '<p>'.$instance->customtext1.'</p>');
-        $comment_title = get_string('comment', 'enrol_apply');
-        if($instance->customtext2 != ''){
+        $mform->addElement('html', '<p>' . $instance->customtext1 . '</p>');
+        $comment_title = get_string('comment', 'enrol_applyhospice');
+        if ($instance->customtext2 != '') {
             $comment_title = $instance->customtext2;
         }
         $mform->addElement('textarea', 'applydescription', $comment_title, 'cols="80"');
@@ -69,7 +69,7 @@ class enrol_apply_apply_form extends moodleform {
 
         // User profile...
         $editoroptions = $filemanageroptions = null;
-        
+
         if ($instance->customint1) {
             useredit_shared_definition($mform, $editoroptions, $filemanageroptions, $USER);
         }
@@ -78,7 +78,7 @@ class enrol_apply_apply_form extends moodleform {
             profile_definition($mform, $USER->id);
         }
 
-        $mform->setDefaults((array)$USER);
+        $mform->setDefaults((array) $USER);
 
         $this->add_action_buttons(false, get_string('enrolme', 'enrol_self'));
 

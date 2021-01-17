@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  emeneo.com (http://emeneo.com/)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Flotter Totte <flottertotte@emeneo.com>
@@ -28,5 +28,5 @@ $plugin->version = 2021011800;
 $plugin->requires = 2011080100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = 'Enrolment upon approval plugin (Customized for Hospice Waikato)';
-$plugin->component = 'enrol_apply'; // TODO: refactor
+$plugin->component = 'enrol_applyhospice'; // TODO: refactor
 // TODO: Add event hook to add newly confirmed users to the waitlist

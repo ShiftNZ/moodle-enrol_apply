@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  emeneo.com (http://emeneo.com/)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     emeneo.com (http://emeneo.com/)
  * @author     Johannes Burk <johannes.burk@sudile.com>
  */
 
-require_once('../../config.php');
-require_once($CFG->dirroot.'/enrol/apply/lib.php');
-require_once($CFG->dirroot.'/enrol/apply/manage_table.php');
-require_once($CFG->dirroot.'/enrol/apply/renderer.php');
+require_once '../../config.php';
+require_once $CFG->dirroot . '/enrol/apply/lib.php';
+require_once $CFG->dirroot . '/enrol/apply/manage_table.php';
+require_once $CFG->dirroot . '/enrol/apply/renderer.php';
 
 $id = optional_param('id', null, PARAM_INT);
 $formaction = optional_param('formaction', null, PARAM_TEXT);
@@ -37,7 +37,7 @@ $manageurlparams = array();
 if ($id == null) {
     $context = context_system::instance();
     require_capability('enrol/apply:manageapplications', $context);
-    $pageheading = get_string('confirmusers', 'enrol_apply');
+    $pageheading = get_string('confirmusers', 'enrol_applyhospice');
     $instance = null;
 } else {
     $instance = $DB->get_record('enrol', array('id' => $id, 'enrol' => 'apply'), '*', MUST_EXIST);
@@ -55,8 +55,8 @@ $PAGE->set_context($context);
 $PAGE->set_url($manageurl);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_heading($pageheading);
-$PAGE->navbar->add(get_string('confirmusers', 'enrol_apply'));
-$PAGE->set_title(get_string('confirmusers', 'enrol_apply'));
+$PAGE->navbar->add(get_string('confirmusers', 'enrol_applyhospice'));
+$PAGE->set_title(get_string('confirmusers', 'enrol_applyhospice'));
 $PAGE->requires->css('/enrol/apply/style.css');
 
 if ($formaction != null && $userenrolments != null) {
@@ -75,8 +75,8 @@ if ($formaction != null && $userenrolments != null) {
     redirect($manageurl);
 }
 
-$table = new enrol_apply_manage_table($id);
+$table = new enrol_applyhospice_manage_table($id);
 $table->define_baseurl($manageurl);
 
-$renderer = $PAGE->get_renderer('enrol_apply');
+$renderer = $PAGE->get_renderer('enrol_applyhospice');
 $renderer->manage_page($table, $manageurl, $instance);

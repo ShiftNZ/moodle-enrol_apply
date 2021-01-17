@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  emeneo.com (http://emeneo.com/)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     emeneo.com (http://emeneo.com/)
@@ -33,7 +33,7 @@ $capabilities = array(
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        )
+        ),
     ),
 
     /* Enrolment approval.
@@ -46,7 +46,7 @@ $capabilities = array(
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        )
+        ),
     ),
 
     /* Manage enrolments of users. */
@@ -56,7 +56,7 @@ $capabilities = array(
         'archetypes' => array(
             'manager' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-        )
+        ),
     ),
 
     /* Unenrol a user */
@@ -66,7 +66,7 @@ $capabilities = array(
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        )
+        ),
     ),
 
     /* Allow a user to unenrol himself */
@@ -75,6 +75,6 @@ $capabilities = array(
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'student' => CAP_ALLOW,
-        )
+        ),
     ),
 );

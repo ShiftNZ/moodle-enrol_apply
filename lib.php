@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  emeneo.com (http://emeneo.com/)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     emeneo.com (http://emeneo.com/)
@@ -23,9 +23,9 @@
  */
 
 /** The user is put onto a waiting list and therefore the enrolment not active (used in user_enrolments->status) */
-define('ENROL_APPLY_USER_WAIT', 2);
+define('enrol_applyhospice_USER_WAIT', 2);
 
-class enrol_apply_plugin extends enrol_plugin {
+class enrol_applyhospice_plugin extends enrol_plugin {
 
     /**
      * Add new instance of enrol plugin with default settings.
@@ -48,11 +48,11 @@ class enrol_apply_plugin extends enrol_plugin {
 
     public function allow_apply(stdClass $instance) {
         if ($instance->status != ENROL_INSTANCE_ENABLED) {
-            return get_string('cantenrol', 'enrol_apply');
+            return get_string('cantenrol', 'enrol_applyhospice');
         }
         if (!$instance->customint6) {
             // New enrols not allowed.
-            return get_string('cantenrol', 'enrol_apply');
+            return get_string('cantenrol', 'enrol_applyhospice');
         }
         return true;
     }
@@ -66,10 +66,10 @@ class enrol_apply_plugin extends enrol_plugin {
     public function allow_unenrol_user(stdClass $instance, stdClass $ue) {
         global $DB;
         /*
-        if ($DB->record_exists('enrol_apply_applicationinfo', ['userenrolmentid' => $ue->id])) {
-            return false; // This line cause some issues with the unenrol of some users without resolving the application first.
+        if ($DB->record_exists('enrol_applyhospice_applicationinfo', ['userenrolmentid' => $ue->id])) {
+        return false; // This line cause some issues with the unenrol of some users without resolving the application first.
         }
-        */
+         */
         return parent::allow_unenrol_user($instance, $ue);
     }
     public function allow_manage(stdClass $instance) {
@@ -105,7 +105,7 @@ class enrol_apply_plugin extends enrol_plugin {
         }
 
         if ($DB->record_exists('user_enrolments', array('userid' => $USER->id, 'enrolid' => $instance->id))) {
-            return $OUTPUT->notification(get_string('notification', 'enrol_apply'), 'notifysuccess');
+            return $OUTPUT->notification(get_string('notification', 'enrol_applyhospice'), 'notifysuccess');
         }
 
         if ($instance->customint3 > 0) {
@@ -113,13 +113,13 @@ class enrol_apply_plugin extends enrol_plugin {
             $count = $DB->count_records('user_enrolments', array('enrolid' => $instance->id));
             if ($count >= $instance->customint3) {
                 // Bad luck, no more self enrolments here.
-                return '<div class="alert alert-error">'.get_string('maxenrolledreached_left', 'enrol_apply')." (".$count.") ".get_string('maxenrolledreached_right', 'enrol_apply').'</div>';
+                return '<div class="alert alert-error">' . get_string('maxenrolledreached_left', 'enrol_applyhospice') . " (" . $count . ") " . get_string('maxenrolledreached_right', 'enrol_applyhospice') . '</div>';
             }
         }
 
-        require_once("$CFG->dirroot/enrol/apply/apply_form.php");
+        require_once "$CFG->dirroot/enrol/apply/apply_form.php";
 
-        $form = new enrol_apply_apply_form(null, $instance);
+        $form = new enrol_applyhospice_apply_form(null, $instance);
 
         if ($data = $form->get_data()) {
             // Only process when form submission is for this instance (multi instance support).
@@ -138,7 +138,7 @@ class enrol_apply_plugin extends enrol_plugin {
                 $applicationinfo = new stdClass();
                 $applicationinfo->userenrolmentid = $userenrolment->id;
                 $applicationinfo->comment = $data->applydescription;
-                $DB->insert_record('enrol_apply_applicationinfo', $applicationinfo, false);
+                $DB->insert_record('enrol_applyhospice_applicationinfo', $applicationinfo, false);
 
                 $this->send_application_notification($instance, $USER->id, $data);
 
@@ -174,14 +174,14 @@ class enrol_apply_plugin extends enrol_plugin {
             $managelink = new moodle_url("/enrol/apply/manage.php", array('id' => $instance->id));
             $icons[] = $OUTPUT->action_icon($managelink, new pix_icon(
                 'i/users',
-                get_string('confirmenrol', 'enrol_apply'),
+                get_string('confirmenrol', 'enrol_applyhospice'),
                 'core',
                 array('class' => 'iconsmall')));
 
             $infolink = new moodle_url("/enrol/apply/info.php", array('id' => $instance->id));
             $icons[] = $OUTPUT->action_icon($infolink, new pix_icon(
                 'i/files',
-                get_string('submitted_info', 'enrol_apply'),
+                get_string('submitted_info', 'enrol_applyhospice'),
                 'core',
                 array('class' => 'iconsmall')));
         }
@@ -195,8 +195,8 @@ class enrol_apply_plugin extends enrol_plugin {
      * @return bool
      */
     public function can_hide_show_instance($instance) {
-            $context = context_course::instance($instance->courseid);
-            return has_capability('enrol/apply:config', $context);
+        $context = context_course::instance($instance->courseid);
+        return has_capability('enrol/apply:config', $context);
     }
 
     /**
@@ -206,8 +206,8 @@ class enrol_apply_plugin extends enrol_plugin {
      * @return bool
      */
     public function can_delete_instance($instance) {
-            $context = context_course::instance($instance->courseid);
-            return has_capability('enrol/apply:config', $context);
+        $context = context_course::instance($instance->courseid);
+        return has_capability('enrol/apply:config', $context);
     }
 
     /**
@@ -219,7 +219,7 @@ class enrol_apply_plugin extends enrol_plugin {
      */
     public function add_course_navigation($instancesnode, stdClass $instance) {
         if ($instance->enrol !== 'apply') {
-             throw new coding_exception('Invalid enrol instance type!');
+            throw new coding_exception('Invalid enrol instance type!');
         }
 
         $context = context_course::instance($instance->courseid);
@@ -245,7 +245,7 @@ class enrol_apply_plugin extends enrol_plugin {
         }
         if ($this->allow_manage($instance) && has_capability("enrol/apply:manage", $context)) {
             $url = new moodle_url('/enrol/editenrolment.php', $params);
-            $actions[] = new user_enrolment_action(new pix_icon('t/edit', ''), get_string('edit'), $url, array('class'=>'editenrollink', 'rel'=>$ue->id));
+            $actions[] = new user_enrolment_action(new pix_icon('t/edit', ''), get_string('edit'), $url, array('class' => 'editenrollink', 'rel' => $ue->id));
         }
         return $actions;
     }
@@ -256,16 +256,16 @@ class enrol_apply_plugin extends enrol_plugin {
      */
     public function get_instance_defaults() {
         $fields = array();
-        $fields['status']          = $this->get_config('status');
-        $fields['roleid']          = $this->get_config('roleid', 0);
-        $fields['customint1']      = $this->get_config('show_standard_user_profile');
-        $fields['customint2']      = $this->get_config('show_extra_user_profile');
-        $fields['customtext2']     = $this->get_config('notifycoursebased') ? '$@ALL@$' : '';
-        $fields['enrolperiod']     = $this->get_config('enrolperiod', 0);
-        $fields['customint3']      = $this->get_config('maxenrolled');
-        $fields['customint4']      = $this->get_config('sendcoursewelcomemessage');
-        $fields['customint5']      = 0;
-        $fields['customint6']      = $this->get_config('newenrols');
+        $fields['status'] = $this->get_config('status');
+        $fields['roleid'] = $this->get_config('roleid', 0);
+        $fields['customint1'] = $this->get_config('show_standard_user_profile');
+        $fields['customint2'] = $this->get_config('show_extra_user_profile');
+        $fields['customtext2'] = $this->get_config('notifycoursebased') ? '$@ALL@$' : '';
+        $fields['enrolperiod'] = $this->get_config('enrolperiod', 0);
+        $fields['customint3'] = $this->get_config('maxenrolled');
+        $fields['customint4'] = $this->get_config('sendcoursewelcomemessage');
+        $fields['customint5'] = 0;
+        $fields['customint6'] = $this->get_config('newenrols');
 
         return $fields;
     }
@@ -279,7 +279,7 @@ class enrol_apply_plugin extends enrol_plugin {
                 array(
                     'id' => $enrol,
                     'enrolusersuspended' => ENROL_USER_SUSPENDED,
-                    'enrolapplyuserwait' => ENROL_APPLY_USER_WAIT),
+                    'enrolapplyuserwait' => enrol_applyhospice_USER_WAIT),
                 '*',
                 MUST_EXIST);
 
@@ -293,20 +293,20 @@ class enrol_apply_plugin extends enrol_plugin {
 
             // Set timestart and timeend if an enrolment duration is set.
             $userenrolment->timestart = time();
-            $userenrolment->timeend   = 0;
+            $userenrolment->timeend = 0;
             if ($instance->enrolperiod) {
                 $userenrolment->timeend = $userenrolment->timestart + $instance->enrolperiod;
             }
 
             $this->update_user_enrol($instance, $userenrolment->userid, ENROL_USER_ACTIVE, $userenrolment->timestart, $userenrolment->timeend);
-            $DB->delete_records('enrol_apply_applicationinfo', array('userenrolmentid' => $enrol));
+            $DB->delete_records('enrol_applyhospice_applicationinfo', array('userenrolmentid' => $enrol));
 
             $this->notify_applicant(
-                    $instance,
-                    $userenrolment,
-                    'confirmation',
-                    get_config('enrol_apply', 'confirmmailsubject'),
-                    get_config('enrol_apply', 'confirmmailcontent'));
+                $instance,
+                $userenrolment,
+                'confirmation',
+                get_config('enrol_applyhospice', 'confirmmailsubject'),
+                get_config('enrol_applyhospice', 'confirmmailcontent'));
         }
     }
 
@@ -327,14 +327,14 @@ class enrol_apply_plugin extends enrol_plugin {
                     continue;
                 }
 
-                $this->update_user_enrol($instance, $userenrolment->userid, ENROL_APPLY_USER_WAIT);
+                $this->update_user_enrol($instance, $userenrolment->userid, enrol_applyhospice_USER_WAIT);
 
                 $this->notify_applicant(
                     $instance,
                     $userenrolment,
                     'waitinglist',
-                    get_config('enrol_apply', 'waitmailsubject'),
-                    get_config('enrol_apply', 'waitmailcontent'));
+                    get_config('enrol_applyhospice', 'waitmailsubject'),
+                    get_config('enrol_applyhospice', 'waitmailcontent'));
             }
         }
     }
@@ -348,7 +348,7 @@ class enrol_apply_plugin extends enrol_plugin {
                 array(
                     'id' => $enrol,
                     'enrolusersuspended' => ENROL_USER_SUSPENDED,
-                    'enrolapplyuserwait' => ENROL_APPLY_USER_WAIT),
+                    'enrolapplyuserwait' => enrol_applyhospice_USER_WAIT),
                 '*',
                 MUST_EXIST);
 
@@ -361,29 +361,29 @@ class enrol_apply_plugin extends enrol_plugin {
             }
 
             $this->unenrol_user($instance, $userenrolment->userid);
-            $DB->delete_records('enrol_apply_applicationinfo', array('userenrolmentid' => $enrol));
+            $DB->delete_records('enrol_applyhospice_applicationinfo', array('userenrolmentid' => $enrol));
 
             $this->notify_applicant(
                 $instance,
                 $userenrolment,
                 'cancelation',
-                get_config('enrol_apply', 'cancelmailsubject'),
-                get_config('enrol_apply', 'cancelmailcontent'));
+                get_config('enrol_applyhospice', 'cancelmailsubject'),
+                get_config('enrol_applyhospice', 'cancelmailcontent'));
         }
     }
 
     private function notify_applicant($instance, $userenrolment, $type, $subject, $content) {
         global $CFG;
-        require_once($CFG->dirroot.'/enrol/apply/notification.php');
+        require_once $CFG->dirroot . '/enrol/apply/notification.php';
         // Required for course_get_url() function.
-        require_once($CFG->dirroot.'/course/lib.php');
-       
+        require_once $CFG->dirroot . '/course/lib.php';
+
         $course = get_course($instance->courseid);
         $user = core_user::get_user($userenrolment->userid);
 
         $content = $this->update_mail_content($content, $course, $user, $userenrolment);
 
-        $message = new enrol_apply_notification(
+        $message = new enrol_applyhospice_notification(
             $user,
             core_user::get_support_user(),
             $type,
@@ -396,12 +396,12 @@ class enrol_apply_plugin extends enrol_plugin {
 
     private function send_application_notification($instance, $userid, $data) {
         global $CFG, $PAGE;
-        require_once($CFG->dirroot.'/enrol/apply/notification.php');
+        require_once $CFG->dirroot . '/enrol/apply/notification.php';
         // Required for course_get_url() function.
-        require_once($CFG->dirroot.'/course/lib.php');
+        require_once $CFG->dirroot . '/course/lib.php';
 
-        $renderer = $PAGE->get_renderer('enrol_apply');
-        
+        $renderer = $PAGE->get_renderer('enrol_applyhospice');
+
         $course = get_course($instance->courseid);
         $applicant = core_user::get_user($userid);
 
@@ -415,7 +415,7 @@ class enrol_apply_plugin extends enrol_plugin {
         // Include extra user profile fields?
         $extrauserfields = null;
         if ($instance->customint2) {
-            require_once($CFG->dirroot.'/user/profile/lib.php');
+            require_once $CFG->dirroot . '/user/profile/lib.php';
             profile_load_custom_fields($applicant);
             $extrauserfields = $applicant->profile;
         }
@@ -432,11 +432,11 @@ class enrol_apply_plugin extends enrol_plugin {
                 $standarduserfields,
                 $extrauserfields);
             foreach ($courseuserstonotify as $user) {
-                $message = new enrol_apply_notification(
+                $message = new enrol_applyhospice_notification(
                     $user,
                     $applicant,
                     'application',
-                    get_string('mailtoteacher_suject', 'enrol_apply'),
+                    get_string('mailtoteacher_suject', 'enrol_applyhospice'),
                     $content,
                     $manageurl,
                     $instance->courseid);
@@ -446,7 +446,7 @@ class enrol_apply_plugin extends enrol_plugin {
 
         // Send notification to users with manageapplications in system context?
         $globaluserstonotify = $this->get_notifyglobal_users();
-        $globaluserstonotify = array_udiff($globaluserstonotify, $courseuserstonotify, function($usera, $userb) {
+        $globaluserstonotify = array_udiff($globaluserstonotify, $courseuserstonotify, function ($usera, $userb) {
             return $usera->id == $userb->id ? 0 : -1;
         });
         if (!empty($globaluserstonotify)) {
@@ -459,11 +459,11 @@ class enrol_apply_plugin extends enrol_plugin {
                 $standarduserfields,
                 $extrauserfields);
             foreach ($globaluserstonotify as $user) {
-                $message = new enrol_apply_notification(
+                $message = new enrol_applyhospice_notification(
                     $user,
                     $applicant,
                     'application',
-                    get_string('mailtoteacher_suject', 'enrol_apply'),
+                    get_string('mailtoteacher_suject', 'enrol_applyhospice'),
                     $content,
                     $manageurl,
                     $instance->courseid);
@@ -519,10 +519,10 @@ class enrol_apply_plugin extends enrol_plugin {
     private function update_mail_content($content, $course, $user, $userenrolment) {
         $replace = array(
             'firstname' => $user->firstname,
-            'content'   => format_string($course->fullname),
-            'lastname'  => $user->lastname,
-            'username'  => $user->username,
-            'timeend'   => !empty($userenrolment->timeend) ? userdate($userenrolment->timeend) : ''
+            'content' => format_string($course->fullname),
+            'lastname' => $user->lastname,
+            'username' => $user->username,
+            'timeend' => !empty($userenrolment->timeend) ? userdate($userenrolment->timeend) : '',
         );
         foreach ($replace as $key => $val) {
             $content = str_replace('{' . $key . '}', $val, $content);
@@ -546,7 +546,7 @@ class enrol_apply_plugin extends enrol_plugin {
 
         $data->customint1 = $step->get_mappingid('role', $data->customint1, null);
 
-        $instanceid = $this->add_instance($course, (array)$data);
+        $instanceid = $this->add_instance($course, (array) $data);
         $step->set_mapping('enrol', $oldid, $instanceid);
 
         //$this->sync_enrols($DB->get_record('enrol', array('id'=>$instanceid)));

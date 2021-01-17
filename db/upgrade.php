@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  emeneo.com (http://emeneo.com/)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Johannes Burk <johannes.burk@sudile.com>
@@ -23,26 +23,26 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-function xmldb_enrol_apply_upgrade($oldversion) {
+function xmldb_enrol_applyhospice_upgrade($oldversion) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2016012801) {
 
-        // Define table enrol_apply_applicationinfo to be created.
-        $table = new xmldb_table('enrol_apply_applicationinfo');
+        // Define table enrol_applyhospice_applicationinfo to be created.
+        $table = new xmldb_table('enrol_applyhospice_applicationinfo');
 
-        // Adding fields to table enrol_apply_applicationinfo.
+        // Adding fields to table enrol_applyhospice_applicationinfo.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('userenrolmentid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('comment', XMLDB_TYPE_TEXT, null, null, null, null, null);
 
-        // Adding keys to table enrol_apply_applicationinfo.
+        // Adding keys to table enrol_applyhospice_applicationinfo.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_key('userenrolment', XMLDB_KEY_FOREIGN_UNIQUE, array('userenrolmentid'), 'user_enrolments', array('id'));
 
-        // Conditionally launch create table for enrol_apply_applicationinfo.
+        // Conditionally launch create table for enrol_applyhospice_applicationinfo.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }

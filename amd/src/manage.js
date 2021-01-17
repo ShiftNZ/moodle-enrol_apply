@@ -14,25 +14,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  2016 sudile GbR (http://www.sudile.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Johannes Burk <johannes.burk@sudile.com>
  */
 
 /**
- * @module enrol_apply/manage
+ * @module enrol_applyhospice/manage
  */
-define(['jquery'], function($) {
-    return {
-        init: function() {
-            $('#toggleall').on('change', function() {
-                $('input[name="userenrolments[]"]').prop('checked', $('#toggleall').prop('checked'));
-            });
+define(['jquery'], function ($) {
+	return {
+		init: function () {
+			$('#toggleall').on('change', function () {
+				$('input[name="userenrolments[]"]').prop('checked', $('#toggleall').prop('checked'));
+			});
 
-            $('#formaction').on('change', function() {
-                $('#enrol_apply_manage_form').submit();
-            });
-        }
-    };
+			$('#formaction').on('change', function () {
+				$('#enrol_applyhospice_manage_form').submit();
+			});
+		},
+	};
 });

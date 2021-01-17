@@ -25,7 +25,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Provides the information to backup test enrol instances
  */
-class backup_enrol_apply_plugin extends backup_enrol_plugin {
+class backup_enrol_applyhospice_plugin extends backup_enrol_plugin {
 
     protected function define_enrol_plugin_structure() {
 
@@ -49,8 +49,8 @@ class backup_enrol_apply_plugin extends backup_enrol_plugin {
         $applymaps->add_child($applymap);
 
         // set source to populate the data
-        $applymap->set_source_table('enrol_apply_applicationinfo',
-                array('enrol'  => backup::VAR_PARENTID));
+        $applymap->set_source_table('enrol_applyhospice_applicationinfo',
+            array('enrol' => backup::VAR_PARENTID));
 
         return $plugin;
     }

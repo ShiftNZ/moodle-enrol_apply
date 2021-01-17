@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  emeneo.com (http://emeneo.com/)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     emeneo.com (http://emeneo.com/)
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once $CFG->libdir . '/formslib.php';
 
-class enrol_apply_edit_form extends moodleform {
+class enrol_applyhospice_edit_form extends moodleform {
 
     protected function definition() {
         global $DB;
@@ -34,18 +34,18 @@ class enrol_apply_edit_form extends moodleform {
 
         list($instance, $plugin, $context) = $this->_customdata;
 
-        $mform->addElement('header', 'header', get_string('pluginname', 'enrol_apply'));
+        $mform->addElement('header', 'header', get_string('pluginname', 'enrol_applyhospice'));
 
         $mform->addElement('text', 'name', get_string('custominstancename', 'enrol'));
         $mform->setType('name', PARAM_TEXT);
 
-        $mform->addElement('select', 'status', get_string('status', 'enrol_apply'), array(
+        $mform->addElement('select', 'status', get_string('status', 'enrol_applyhospice'), array(
             ENROL_INSTANCE_ENABLED => get_string('yes'),
             ENROL_INSTANCE_DISABLED => get_string('no')));
-        // $mform->addHelpButton('status', 'status', 'enrol_apply');
+        // $mform->addHelpButton('status', 'status', 'enrol_applyhospice');
         $mform->setDefault('status', $plugin->get_config('status'));
 
-        $mform->addElement('select', 'customint6', get_string('newenrols', 'enrol_apply'), array(
+        $mform->addElement('select', 'customint6', get_string('newenrols', 'enrol_applyhospice'), array(
             1 => get_string('yes'),
             0 => get_string('no'),
         ));
@@ -59,21 +59,21 @@ class enrol_apply_edit_form extends moodleform {
         $mform->addElement('select', 'roleid', get_string('defaultrole', 'role'), $roles);
         $mform->setDefault('roleid', $plugin->get_config('roleid'));
 
-        $mform->addElement('textarea', 'customtext1', get_string('editdescription', 'enrol_apply'));
+        $mform->addElement('textarea', 'customtext1', get_string('editdescription', 'enrol_applyhospice'));
 
         //new added requirement_20190110
-        //$title_customtext2 = str_replace("{replace_title}",$instance->customtext2,get_string('custom_label', 'enrol_apply'));
-        $title_customtext2 = get_string('custom_label', 'enrol_apply');
+        //$title_customtext2 = str_replace("{replace_title}",$instance->customtext2,get_string('custom_label', 'enrol_applyhospice'));
+        $title_customtext2 = get_string('custom_label', 'enrol_applyhospice');
         $mform->addElement('text', 'customtext2', $title_customtext2);
         $mform->setDefault('customtext2', "Comment");
 
         $options = array(1 => get_string('yes'),
             0 => get_string('no'));
 
-        $mform->addElement('select', 'customint1', get_string('show_standard_user_profile', 'enrol_apply'), $options);
+        $mform->addElement('select', 'customint1', get_string('show_standard_user_profile', 'enrol_applyhospice'), $options);
         $mform->setDefault('customint1', $plugin->get_config('customint1'));
 
-        $mform->addElement('select', 'customint2', get_string('show_extra_user_profile', 'enrol_apply'), $options);
+        $mform->addElement('select', 'customint2', get_string('show_extra_user_profile', 'enrol_applyhospice'), $options);
         $mform->setDefault('customint2', $plugin->get_config('customint2'));
 
         $choices = array(
@@ -84,7 +84,7 @@ class enrol_apply_edit_form extends moodleform {
         foreach ($users as $userid => $user) {
             $choices[$userid] = fullname($user);
         }
-        $select = $mform->addElement('select', 'notify', get_string('notify_desc', 'enrol_apply'), $choices);
+        $select = $mform->addElement('select', 'notify', get_string('notify_desc', 'enrol_applyhospice'), $choices);
         $select->setMultiple(true);
         $userid = $DB->get_field('enrol', 'customtext3', array('id' => $instance->id), IGNORE_MISSING);
         if (!empty($userid)) {
@@ -98,14 +98,14 @@ class enrol_apply_edit_form extends moodleform {
             }
         }
 
-        $mform->addElement('text', 'customint3', get_string('maxenrolled', 'enrol_apply'));
+        $mform->addElement('text', 'customint3', get_string('maxenrolled', 'enrol_applyhospice'));
         $mform->setType('customint3', PARAM_INT);
         $mform->setDefault('customint3', $plugin->get_config('customint3'));
 
         $options = array('optional' => true, 'defaultunit' => 86400);
-        $mform->addElement('duration', 'enrolperiod', get_string('defaultperiod', 'enrol_apply'), $options);
+        $mform->addElement('duration', 'enrolperiod', get_string('defaultperiod', 'enrol_applyhospice'), $options);
         $mform->setDefault('enrolperiod', $plugin->get_config('enrolperiod'));
-        $mform->addHelpButton('enrolperiod', 'defaultperiod', 'enrol_apply');
+        $mform->addHelpButton('enrolperiod', 'defaultperiod', 'enrol_applyhospice');
 
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);

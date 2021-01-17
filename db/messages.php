@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  2016 sudile GbR (http://www.sudile.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Johannes Burk <johannes.burk@sudile.com>
@@ -23,18 +23,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$messageproviders = array (
+$messageproviders = array(
     // Notify teacher/manager that a student has applied for a course enrolment.
-    'application' => array (
-        'capability'  => 'enrol/apply:manageapplications'
+    'application' => array(
+        'capability' => 'enrol/apply:manageapplications',
     ),
 
     // Notify student that his application was confirmed.
-    'confirmation' => array (),
+    'confirmation' => array(),
 
     // Notify student that his application was canceled.
-    'cancelation' => array (),
+    'cancelation' => array(),
 
     // Notify student that his application was deferred (put on a waiting list).
-    'waitinglist' => array (),
+    'waitinglist' => array(),
 );

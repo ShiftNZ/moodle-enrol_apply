@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'enrol_apply', language 'ja', branch 'MOODLE_30_STABLE'
+ * Strings for component 'enrol_applyhospice', language 'ja', branch 'MOODLE_30_STABLE'
  *
- * @package   enrol_apply
+ * @package   enrol_applyhospice
  * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

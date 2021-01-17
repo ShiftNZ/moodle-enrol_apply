@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    enrol_apply
+ * @package    enrol_applyhospice
  * @copyright  2016 sudile GbR (http://www.sudile.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Johannes Burk <johannes.burk@sudile.com>
@@ -23,29 +23,29 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class enrol_apply_notification extends \core\message\message {
-    public function __construct($to, $from, $type, $subject, $content, $url,$courseid) {
-        $this->component = 'enrol_apply';
+class enrol_applyhospice_notification extends \core\message\message {
+    public function __construct($to, $from, $type, $subject, $content, $url, $courseid) {
+        $this->component = 'enrol_applyhospice';
 
         switch ($type) {
             case 'application':
                 $this->name = 'application';
-                $this->smallmessage = get_string('newapplicationnotification', 'enrol_apply');
+                $this->smallmessage = get_string('newapplicationnotification', 'enrol_applyhospice');
                 break;
             case 'confirmation':
                 $this->name = 'confirmation';
-                $this->smallmessage = get_string('applicationconfirmednotification', 'enrol_apply');
+                $this->smallmessage = get_string('applicationconfirmednotification', 'enrol_applyhospice');
                 break;
             case 'cancelation':
                 $this->name = 'cancelation';
-                $this->smallmessage = get_string('applicationcancelednotification', 'enrol_apply');
+                $this->smallmessage = get_string('applicationcancelednotification', 'enrol_applyhospice');
                 break;
             case 'waitinglist':
                 $this->name = 'waitinglist';
-                $this->smallmessage = get_string('applicationdeferrednotification', 'enrol_apply');
+                $this->smallmessage = get_string('applicationdeferrednotification', 'enrol_applyhospice');
                 break;
             default:
-                throw new invalid_parameter_exception('Invalid enrol_apply notification type.');
+                throw new invalid_parameter_exception('Invalid enrol_applyhospice notification type.');
                 break;
         }
 
