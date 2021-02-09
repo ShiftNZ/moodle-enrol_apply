@@ -30,3 +30,4 @@ $plugin->maturity = MATURITY_STABLE;
 $plugin->release = 'Enrolment upon approval plugin (Customized for Hospice Waikato)';
 $plugin->component = 'enrol_applyhospice'; // TODO: refactor
 // TODO: Add event hook to add newly confirmed users to the waitlist
+// TODO add a dependency on the reporting dashboard for the region tracking

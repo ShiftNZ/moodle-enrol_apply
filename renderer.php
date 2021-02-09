@@ -83,13 +83,16 @@ class enrol_applyhospice_renderer extends plugin_renderer_base {
             'course',
             'fullname', // Magic happens here: The column heading will automatically be set.
             'email',
+            'region',
             'applydate',
-            'applycomment');
+            'applycomment',
+        );
         $headers = array(
             html_writer::checkbox('toggleall', 'toggleall', false, '', array('id' => 'toggleall')),
             get_string('course'),
             'fullname', // Magic happens here: The column heading will automatically be set due to column name 'fullname'.
             get_string('email'),
+            'Region',
             get_string('applydate', 'enrol_applyhospice'),
             get_string('applycomment', 'enrol_applyhospice'),
         );

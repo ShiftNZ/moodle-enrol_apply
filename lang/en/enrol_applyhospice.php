@@ -81,11 +81,11 @@ $string['status'] = 'Allow Course enrol confirmation';
 $string['newenrols'] = 'Allow new course enrol request';
 $string['confirmenrol'] = 'Manage application';
 
-$string['apply:config'] = 'Configure apply enrol instances';
-$string['apply:manage'] = 'Manage user enrolments';
-$string['apply:manageapplications'] = 'Manage apply enrolment';
-$string['apply:unenrol'] = 'Cancel users from the course';
-$string['apply:unenrolself'] = 'Cancel self from the course';
+$string['applyhospice:config'] = 'Configure apply enrol instances';
+$string['applyhospice:manage'] = 'Manage user enrolments';
+$string['applyhospice:manageapplications'] = 'Manage apply enrolment';
+$string['applyhospice:unenrol'] = 'Cancel users from the course';
+$string['applyhospice:unenrolself'] = 'Cancel self from the course';
 
 $string['notification'] = '<b>Enrolment application successfully sent</b>. <br/><br/>You will be informed by email when your enrolment has been confirmed.';
 
@@ -123,3 +123,5 @@ $string['expiredaction'] = 'Enrolment expiry action';
 $string['expiredaction_help'] = 'Select action to carry out when user enrolment expires. Please note that some user data and settings are purged from course during course unenrolment.';
 
 $string['submitted_info'] = 'Enrol info';
+
+$string['regionalmanagers'] = 'Regional Managers';

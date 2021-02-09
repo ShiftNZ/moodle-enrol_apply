@@ -84,6 +84,9 @@ if ($mform->is_cancelled()) {
     if (in_array('$@ALL@$', $notify)) {
         $notify = array('$@ALL@$');
     }
+    if (in_array('$@MYREGION@$', $notify)) {
+        $notify = array('$@MYREGION@$');
+    }
     // None never needs to be written to the DB.
     if (in_array('$@NONE@$', $notify)) {
         unset($notify[array_search('$@NONE@$', $notify)]);

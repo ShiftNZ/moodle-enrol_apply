@@ -470,6 +470,33 @@ class enrol_applyhospice_plugin extends enrol_plugin {
                 message_send($message);
             }
         }
+
+        // Send notification to users with manageapplications in system context?
+        $regionaluserstonotify = $this->get_notifyregional_users($applicant);
+        $regionaluserstonotify = array_udiff($regionaluserstonotify, $courseuserstonotify, function ($usera, $userb) {
+            return $usera->id == $userb->id ? 0 : -1;
+        });
+        if (!empty($regionaluserstonotify)) {
+            $manageurl = new moodle_url('/enrol/applyhospice/manage.php');
+            $content = $renderer->application_notification_mail_body(
+                $course,
+                $applicant,
+                $manageurl,
+                $data->applydescription,
+                $standarduserfields,
+                $extrauserfields);
+            foreach ($regionaluserstonotify as $user) {
+                $message = new enrol_applyhospice_notification(
+                    $user,
+                    $applicant,
+                    'application',
+                    get_string('mailtoteacher_suject', 'enrol_applyhospice'),
+                    $content,
+                    $manageurl,
+                    $instance->courseid);
+                message_send($message);
+            }
+        }
     }
 
     /**
@@ -503,6 +530,16 @@ class enrol_applyhospice_plugin extends enrol_plugin {
                 $user = $users[$uid];
                 $result[$user->id] = $user;
             }
+        }
+
+        return $result;
+    }
+
+    public function get_notifyregional_users($applicant) {
+        $result = array();
+        // TODO: finish implementing this handling to return ?enrolled?, regional managers?
+        if ($value === '$@MYREGION@$') {
+            // return array();
         }
 
         return $result;
