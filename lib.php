@@ -472,7 +472,7 @@ class enrol_applyhospice_plugin extends enrol_plugin {
         }
 
         // Send notification to users with manageapplications in system context?
-        $regionaluserstonotify = $this->get_notifyregional_users($applicant);
+        $regionaluserstonotify = $this->get_notifyregional_users($instance, $applicant);
         $regionaluserstonotify = array_udiff($regionaluserstonotify, $courseuserstonotify, function ($usera, $userb) {
             return $usera->id == $userb->id ? 0 : -1;
         });
@@ -535,11 +535,25 @@ class enrol_applyhospice_plugin extends enrol_plugin {
         return $result;
     }
 
-    public function get_notifyregional_users($applicant) {
+    public function get_notifyregional_users($instance, $applicant) {
+        global $CFG, $DB;
+
         $result = array();
-        // TODO: finish implementing this handling to return ?enrolled?, regional managers?
+        $value = $instance->customtext3;
         if ($value === '$@MYREGION@$') {
-            // return array();
+            require_once "$CFG->dirroot/user/profile/lib.php";
+            $custom_profile_fields = profile_user_record($applicant->id);
+
+            $sql = "SELECT dh.id, dh.fullname AS 'hospicename', dh.region, dr.fullname AS 'regionname', dr.manager AS 'managerid'
+                    FROM mdl_dashboard_hospices AS dh
+                    JOIN mdl_dashboard_regions AS dr ON dr.id = dh.region
+                    WHERE dh.fullname LIKE ?";
+
+            $manager = $DB->get_record_sql($sql, [$custom_profile_fields->closesthospice]);
+            if ($manager->managerid != '0') {
+                $users = $DB->get_records('user', ["id" => $manager->managerid]);
+                return $users;
+            }
         }
 
         return $result;

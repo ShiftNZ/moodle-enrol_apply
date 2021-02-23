@@ -47,14 +47,17 @@ class enrol_applyhospice_manage_table extends table_sql {
 
         $this->set_sql(
             'ue.id AS userenrolmentid, ue.userid, ue.status AS enrolstatus, ue.timecreated AS applydate,
-            ai.comment AS applycomment, u.*, c.fullname as course, uid.data AS region',
+            ai.comment AS applycomment, u.*, c.fullname as course, uid.data AS hospice, dr.fullname AS region',
             "{user_enrolments} AS ue
             LEFT JOIN {enrol_applyhospice_info} ai ON ai.userenrolmentid = ue.id
             JOIN {user} u ON u.id = ue.userid
             JOIN {enrol} e ON e.id = ue.enrolid
             JOIN {course} c ON c.id = e.courseid
-            JOIN {user_info_data}  AS uid ON uid.userid = ue.userid
-            JOIN {user_info_field} AS uif ON uif.id = uid.fieldid AND uif.shortname = 'Region'",
+            JOIN {user_info_data} AS uid ON uid.userid = ue.userid
+            JOIN {user_info_field} AS uif ON uif.id = uid.fieldid AND uif.shortname = 'closesthospice'
+            JOIN {dashboard_hospices} AS dh ON dh.fullname = uid.data
+            JOIN {dashboard_regions} AS dr ON dr.id = dh.region",
+
             $sqlwhere,
             $sqlparams);
         // TODO: Filter this list of users based on the users profile field hospice having the same region as the user viewing this form

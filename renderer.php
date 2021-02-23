@@ -84,6 +84,7 @@ class enrol_applyhospice_renderer extends plugin_renderer_base {
             'fullname', // Magic happens here: The column heading will automatically be set.
             'email',
             'region',
+            'hospice',
             'applydate',
             'applycomment',
         );
@@ -93,6 +94,7 @@ class enrol_applyhospice_renderer extends plugin_renderer_base {
             'fullname', // Magic happens here: The column heading will automatically be set due to column name 'fullname'.
             get_string('email'),
             'Region',
+            'Hospice',
             get_string('applydate', 'enrol_applyhospice'),
             get_string('applycomment', 'enrol_applyhospice'),
         );
